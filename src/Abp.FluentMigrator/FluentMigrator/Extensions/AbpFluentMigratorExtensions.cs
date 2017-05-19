@@ -102,7 +102,7 @@ namespace Abp.FluentMigrator.Extensions
         }
 
         /// <summary>
-        /// Adds IsDeleted column to the table. See <see cref="IPassivable"/>.
+        /// Adds IsActive column to the table. See <see cref="IPassivable"/>.
         /// </summary>
         public static ICreateTableColumnOptionOrWithColumnSyntax WithIsActiveColumn(this ICreateTableWithColumnSyntax table, bool defaultValue = true)
         {
@@ -111,7 +111,7 @@ namespace Abp.FluentMigrator.Extensions
         }
 
         /// <summary>
-        /// Adds IsDeleted column to the table. See <see cref="IPassivable"/>.
+        /// Adds IsActive column to the table. See <see cref="IPassivable"/>.
         /// </summary>
         public static IAlterTableColumnOptionOrAddColumnOrAlterColumnSyntax AddIsActiveColumn(this IAlterTableAddColumnOrAlterColumnSyntax table, bool defaultValue = true)
         {
