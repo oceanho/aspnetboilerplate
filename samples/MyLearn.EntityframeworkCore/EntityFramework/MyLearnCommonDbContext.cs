@@ -5,6 +5,8 @@ using System.Text;
 using Abp.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyLearn.Common.Authorization.Roles;
+using Abp.Dependency;
+using Abp.Configuration.Startup;
 
 namespace MyLearn.EntityframeworkCore
 {
@@ -13,7 +15,7 @@ namespace MyLearn.EntityframeworkCore
         protected readonly String ConnectionString;
         public MyLearnCommonDbContext(DbContextOptions options) : base(options)
         {
-            ConnectionString = "";
+            ConnectionString = IocManager.Instance.Resolve<IAbpStartupConfiguration>().DefaultNameOrConnectionString;
         }
 
         public virtual DbSet<PlmRole> Roles { get; set; }
