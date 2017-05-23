@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyLearn.Common.Application.Roles
 {
-    public interface IPlmRoleAppService : Abp.Application.Services.IPlmRoleAppService
+    public interface IPlmRoleAppService : IApplicationService
     {
         Task<PlmRoleCreateOutput> CreateRole(PlmRoleCreateInput input);
     }
