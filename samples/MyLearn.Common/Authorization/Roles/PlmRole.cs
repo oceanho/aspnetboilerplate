@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Abp.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace MyLearn.Common.Authorization.Roles
 {
-    public class PlmRole
+    [Table("PlmRole")]
+    public class PlmRole : Entity
     {
     }
 }
