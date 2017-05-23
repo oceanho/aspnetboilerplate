@@ -15,7 +15,7 @@ namespace MyLearn.Common
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(MyLearnCommonModule).GetAssembly());
+            IocManager.RegisterAssemblyByConvention(GetType().GetAssembly());
         }
 
         public override void PostInitialize()
