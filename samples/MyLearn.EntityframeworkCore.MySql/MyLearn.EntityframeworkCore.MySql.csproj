@@ -8,4 +8,8 @@
     <ProjectReference Include="..\MyLearn.Common\MyLearn.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
