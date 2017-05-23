@@ -3,10 +3,10 @@ using Abp.Reflection.Extensions;
 using MyLearn.Common;
 using System;
 
-namespace MyLearn.EntityframeworkCore.MySql
+namespace MyLearn.EntityframeworkCore.Common
 {
     [DependsOn(typeof(MyLearnCommonModule))]
-    public class MyLearneEfOfMySqlModule : AbpModule
+    public class MyLearneEfCommonModule : AbpModule
     {
         public override void Initialize()
         {

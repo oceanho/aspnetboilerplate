@@ -139,6 +139,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.ApplicationService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.Web.Admin", "samples\MyLearn.Web.Admin\MyLearn.Web.Admin.csproj", "{55326270-6B5C-4618-A02E-B08A24909A44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore", "samples\MyLearn.EntityframeworkCore.Common\MyLearn.EntityframeworkCore.csproj", "{8DA839B6-92C7-40EF-8126-A8782F8E58EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -369,6 +371,10 @@ Global
 		{55326270-6B5C-4618-A02E-B08A24909A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55326270-6B5C-4618-A02E-B08A24909A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55326270-6B5C-4618-A02E-B08A24909A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA839B6-92C7-40EF-8126-A8782F8E58EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA839B6-92C7-40EF-8126-A8782F8E58EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA839B6-92C7-40EF-8126-A8782F8E58EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA839B6-92C7-40EF-8126-A8782F8E58EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -436,5 +442,6 @@ Global
 		{EF0DE9EA-6BC9-4C42-9EB3-D6C1CFF27A39} = {F698A205-25E9-45EA-9693-823383972E5B}
 		{421B87DC-E229-44A6-AD23-8D8A60BF53FF} = {F4D707B7-824F-476F-8C16-D7D34D9183D1}
 		{55326270-6B5C-4618-A02E-B08A24909A44} = {1765F2C9-8257-4F37-A506-8689E75EB5B2}
+		{8DA839B6-92C7-40EF-8126-A8782F8E58EF} = {F698A205-25E9-45EA-9693-823383972E5B}
 	EndGlobalSection
 EndGlobal

@@ -6,7 +6,7 @@ using System;
 namespace MyLearn.ApplicationService
 {
     [DependsOn(typeof(MyLearnKernelModule))]
-    public class MyLearnAppServiceModule:AbpModule
+    public class MyLearnAppServiceModule : AbpModule
     {
         public override void Initialize()
         {
