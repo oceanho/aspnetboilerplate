@@ -139,7 +139,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.ApplicationService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.Web.Admin", "samples\MyLearn.Web.Admin\MyLearn.Web.Admin.csproj", "{55326270-6B5C-4618-A02E-B08A24909A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore", "samples\MyLearn.EntityframeworkCore.Common\MyLearn.EntityframeworkCore.csproj", "{8DA839B6-92C7-40EF-8126-A8782F8E58EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore", "samples\MyLearn.EntityframeworkCore\MyLearn.EntityframeworkCore.csproj", "{8DA839B6-92C7-40EF-8126-A8782F8E58EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
