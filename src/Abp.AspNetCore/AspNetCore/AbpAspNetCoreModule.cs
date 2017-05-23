@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.MultiTenancy;
 using Abp.AspNetCore.Mvc.Auditing;
@@ -11,6 +12,7 @@ using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Runtime.Session;
 using Abp.Web;
+using Abp.Web.MultiTenancy;
 using Abp.Web.Security.AntiForgery;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;

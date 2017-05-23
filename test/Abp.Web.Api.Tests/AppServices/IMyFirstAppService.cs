@@ -2,7 +2,7 @@ using Abp.Application.Services;
 
 namespace Abp.Web.Api.Tests.AppServices
 {
-    public interface IMyFirstAppService : IPlmRoleAppService
+    public interface IMyFirstAppService : IApplicationService
     {
         string GetStr(int i);
 

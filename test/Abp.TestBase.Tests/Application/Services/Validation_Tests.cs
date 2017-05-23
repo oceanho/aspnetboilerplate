@@ -166,7 +166,7 @@ namespace Abp.TestBase.Tests.Application.Services
             MyMethodOutput MyMethod8(MyClassWithRecursiveReference input);
         }
 
-        public class MyAppService : IMyAppService, IPlmRoleAppService
+        public class MyAppService : IMyAppService, IApplicationService
         {
             public MyMethodOutput MyMethod(MyMethodInput input)
             {

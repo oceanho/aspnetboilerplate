@@ -24,7 +24,7 @@ namespace Abp.AspNetCore.Mvc.Providers
         {
             var type = typeInfo.AsType();
 
-            if (!typeof(IPlmRoleAppService).IsAssignableFrom(type) ||
+            if (!typeof(IApplicationService).IsAssignableFrom(type) ||
                 !typeInfo.IsPublic || typeInfo.IsAbstract || typeInfo.IsGenericType)
             {
                 return false;

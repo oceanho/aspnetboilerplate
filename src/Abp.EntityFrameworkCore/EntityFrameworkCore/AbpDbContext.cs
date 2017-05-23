@@ -13,7 +13,6 @@ using Abp.Domain.Uow;
 using Abp.Events.Bus;
 using Abp.Events.Bus.Entities;
 using Abp.Extensions;
-using Abp.MultiTenancy;
 using Abp.Reflection;
 using Abp.Runtime.Session;
 using Abp.Timing;
@@ -77,7 +76,7 @@ namespace Abp.EntityFrameworkCore
         {
             InitializeDbContext();
         }
-
+        
         private void InitializeDbContext()
         {
             SetNullsForInjectedProperties();
@@ -141,7 +140,7 @@ namespace Abp.EntityFrameworkCore
                         changeReport.ChangedEntities.Add(new EntityChangeEntry(entry.Entity, EntityChangeType.Created));
                         break;
                     case EntityState.Modified:
-                        SetModificationAuditProperties(entry.Entity, userId);
+                        SetModificationAuditProperties(entry, userId);
                         if (entry.Entity is ISoftDelete && entry.Entity.As<ISoftDelete>().IsDeleted)
                         {
                             SetDeletionAuditProperties(entry.Entity, userId);
@@ -207,7 +206,7 @@ namespace Abp.EntityFrameworkCore
             {
                 return;
             }
-
+            
             //Only set IMustHaveTenant entities
             if (!(entityAsObj is IMustHaveTenant))
             {
@@ -266,12 +265,75 @@ namespace Abp.EntityFrameworkCore
 
         protected virtual void SetCreationAuditProperties(object entityAsObj, long? userId)
         {
-            EntityAuditingHelper.SetCreationAuditProperties(MultiTenancyConfig, entityAsObj, AbpSession.TenantId, userId);
+            var entityWithCreationTime = entityAsObj as IHasCreationTime;
+            if (entityWithCreationTime == null)
+            {
+                return;
+            }
+
+            if (entityWithCreationTime.CreationTime == default(DateTime))
+            {
+                entityWithCreationTime.CreationTime = Clock.Now;
+            }
+
+            if (userId.HasValue && entityAsObj is ICreationAudited)
+            {
+                var entity = entityAsObj as ICreationAudited;
+                if (entity.CreatorUserId == null)
+                {
+                    if (entity is IMayHaveTenant || entity is IMustHaveTenant)
+                    {
+                        //Sets CreatorUserId only if current user is in same tenant/host with the given entity
+                        if ((entity is IMayHaveTenant && entity.As<IMayHaveTenant>().TenantId == AbpSession.TenantId) ||
+                            (entity is IMustHaveTenant && entity.As<IMustHaveTenant>().TenantId == AbpSession.TenantId))
+                        {
+                            entity.CreatorUserId = userId;
+                        }
+                    }
+                    else
+                    {
+                        entity.CreatorUserId = userId;
+                    }
+                }
+            }
         }
 
-        protected virtual void SetModificationAuditProperties(object entityAsObj, long? userId)
+        protected virtual void SetModificationAuditProperties(EntityEntry entry, long? userId)
         {
-            EntityAuditingHelper.SetModificationAuditProperties(MultiTenancyConfig, entityAsObj, AbpSession.TenantId, userId);
+            if (entry.Entity is IHasModificationTime)
+            {
+                entry.Entity.As<IHasModificationTime>().LastModificationTime = Clock.Now;
+            }
+
+            if (entry.Entity is IModificationAudited)
+            {
+                var entity = entry.Entity.As<IModificationAudited>();
+
+                if (userId == null)
+                {
+                    entity.LastModifierUserId = null;
+                    return;
+                }
+
+                //Special check for multi-tenant entities
+                if (entity is IMayHaveTenant || entity is IMustHaveTenant)
+                {
+                    //Sets LastModifierUserId only if current user is in same tenant/host with the given entity
+                    if ((entity is IMayHaveTenant && entity.As<IMayHaveTenant>().TenantId == AbpSession.TenantId) ||
+                        (entity is IMustHaveTenant && entity.As<IMustHaveTenant>().TenantId == AbpSession.TenantId))
+                    {
+                        entity.LastModifierUserId = userId;
+                    }
+                    else
+                    {
+                        entity.LastModifierUserId = null;
+                    }
+                }
+                else
+                {
+                    entity.LastModifierUserId = userId;
+                }
+            }
         }
 
         protected virtual void CancelDeletionForSoftDelete(EntityEntry entry)

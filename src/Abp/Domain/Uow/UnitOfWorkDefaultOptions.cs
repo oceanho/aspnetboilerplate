@@ -35,7 +35,7 @@ namespace Abp.Domain.Uow
             ConventionalUowSelectors = new List<Func<Type, bool>>
             {
                 type => typeof(IRepository).IsAssignableFrom(type) ||
-                        typeof(IPlmRoleAppService).IsAssignableFrom(type)
+                        typeof(IApplicationService).IsAssignableFrom(type)
             };
         }
 

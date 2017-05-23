@@ -14,12 +14,6 @@ namespace Abp.Domain.Uow
                 return attrs[0];
             }
 
-            attrs = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true).OfType<UnitOfWorkAttribute>().ToArray();
-            if (attrs.Length > 0)
-            {
-                return attrs[0];
-            }
-
             if (unitOfWorkDefaultOptions.IsConventionalUowClass(methodInfo.DeclaringType))
             {
                 return new UnitOfWorkAttribute(); //Default

@@ -117,7 +117,7 @@ namespace Abp
             Configuration.Auditing.Selectors.Add(
                 new NamedTypeSelector(
                     "Abp.ApplicationServices",
-                    type => typeof(IPlmRoleAppService).IsAssignableFrom(type)
+                    type => typeof(IApplicationService).IsAssignableFrom(type)
                 )
             );
         }
