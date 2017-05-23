@@ -13,7 +13,15 @@ namespace MyLearn.Web.Admin
     {
         public override void Initialize()
         {
+            ConfigureDbConnection();
             IocManager.RegisterAssemblyByConvention(GetType().GetAssembly());
+        }
+
+        private void ConfigureDbConnection()
+        {
+
+            // TODO: need do ?
+            Configuration.DefaultNameOrConnectionString = "Server=localhost;User Id=root;Password=abc123;Database=mylearn";
         }
     }
 }
