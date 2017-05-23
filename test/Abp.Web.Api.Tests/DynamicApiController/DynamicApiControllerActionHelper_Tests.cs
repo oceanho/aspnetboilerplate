@@ -27,7 +27,7 @@ namespace Abp.Web.Api.Tests.DynamicApiController
             void MyMethod3(string arg1);
         }
 
-        private interface IMyBaseAppService : IApplicationService
+        private interface IMyBaseAppService : IPlmRoleAppService
         {
             int MyBaseMethod();            
         }

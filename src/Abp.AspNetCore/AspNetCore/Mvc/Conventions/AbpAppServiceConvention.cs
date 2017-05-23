@@ -40,7 +40,7 @@ namespace Abp.AspNetCore.Mvc.Conventions
                 var type = controller.ControllerType.AsType();
                 var configuration = GetControllerSettingOrNull(type);
 
-                if (typeof(IApplicationService).GetTypeInfo().IsAssignableFrom(type))
+                if (typeof(IPlmRoleAppService).GetTypeInfo().IsAssignableFrom(type))
                 {
                     controller.ControllerName = controller.ControllerName.RemovePostFix(ApplicationService.CommonPostfixes);
                     configuration?.ControllerModelConfigurer(controller);

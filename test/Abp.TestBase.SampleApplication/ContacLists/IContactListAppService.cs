@@ -3,7 +3,7 @@ using Abp.Application.Services;
 
 namespace Abp.TestBase.SampleApplication.ContacLists
 {
-    public interface IContactListAppService : IApplicationService
+    public interface IContactListAppService : IPlmRoleAppService
     {
         void Test();
 

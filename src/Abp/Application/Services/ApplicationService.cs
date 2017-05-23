@@ -9,7 +9,7 @@ namespace Abp.Application.Services
     /// <summary>
     /// This class can be used as a base class for application services. 
     /// </summary>
-    public abstract class ApplicationService : AbpServiceBase, IApplicationService, IAvoidDuplicateCrossCuttingConcerns
+    public abstract class ApplicationService : AbpServiceBase, IPlmRoleAppService, IAvoidDuplicateCrossCuttingConcerns
     {
         public static string[] CommonPostfixes = { "AppService", "ApplicationService" };
 

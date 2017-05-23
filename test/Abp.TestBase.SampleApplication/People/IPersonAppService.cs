@@ -5,7 +5,7 @@ using Abp.TestBase.SampleApplication.People.Dto;
 
 namespace Abp.TestBase.SampleApplication.People
 {
-    public interface IPersonAppService : IApplicationService
+    public interface IPersonAppService : IPlmRoleAppService
     {
         ListResultDto<PersonDto> GetPeople(GetPeopleInput input);
 

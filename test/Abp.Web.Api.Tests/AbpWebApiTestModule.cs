@@ -25,7 +25,7 @@ namespace Abp.Web.Api.Tests
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
 
             Configuration.Modules.AbpWebApi().DynamicApiControllerBuilder
-                .ForAll<IApplicationService>(Assembly.GetExecutingAssembly(), "myapp")
+                .ForAll<IPlmRoleAppService>(Assembly.GetExecutingAssembly(), "myapp")
                 .ForMethods(builder =>
                 {
                     if (builder.Method.IsDefined(typeof(MyIgnoreApiAttribute)))

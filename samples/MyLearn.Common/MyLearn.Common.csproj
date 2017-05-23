@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Abp\Abp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Users\" />
+    <Folder Include="Authorization\Users\" />
+    <Folder Include="Authorization\OrgUnits\" />
+  </ItemGroup>
+
+</Project>

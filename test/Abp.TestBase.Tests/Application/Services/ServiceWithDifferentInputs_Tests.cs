@@ -27,7 +27,7 @@ namespace Abp.TestBase.Tests.Application.Services
 
         #region Application Service
 
-        public interface IMyAppService : IApplicationService
+        public interface IMyAppService : IPlmRoleAppService
         {
             Task<T> GetsExpressionReturnsGenericAsync<T>(Expression<Func<T, bool>> predicate)
                 where T : class, new();

@@ -31,7 +31,7 @@ namespace Abp.TestBase.Tests.Application.Services
             MyMethodOutput MyMethod(MyMethodInput input);
         }
 
-        public class MyAppService : IMyAppService, IApplicationService
+        public class MyAppService : IMyAppService, IPlmRoleAppService
         {
             public MyMethodOutput MyMethod(MyMethodInput input)
             {
