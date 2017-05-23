@@ -57,7 +57,7 @@ entity can have a reference to its Roles. So, if you want to serialize User, its
 Roles are also serialized. And even Role class may have a List&lt;Permission&gt; and 
 Permission class can have a reference to a PermissionGroup class and so on... Can 
 you think that all of these objects are serialized? You can easily serialize 
-your whole database accidently. Also, if your objects has circcular references, 
+your whole database accidently. Also, if your objects has circular references, 
 			it can not be serialized.</p>
 			<p>What's the solution? Marking properties as 
 NonSerialized? No, you can not know when it should be serialized and when it 
