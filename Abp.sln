@@ -143,6 +143,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore.SqlServer", "samples\MyLearn.EntityframeworkCore.SqlServer\MyLearn.EntityframeworkCore.SqlServer.csproj", "{B140E189-2E1E-4AF1-8BF4-2D9D79BB4F61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore.Migration.MySql", "samples\MyLearn.EntityframeworkCore.Migration.MySql\MyLearn.EntityframeworkCore.Migration.MySql.csproj", "{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration", "Migration", "{4B6A8FB5-19DA-4A21-9CB1-9E0BD25AAC04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D5857E15-3802-475B-95BE-493509EB094A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLearn.EntityframeworkCore.Migrations.SampleApp", "samples\MyLearn.EntityframeworkCore.Migration.SampleApp\MyLearn.EntityframeworkCore.Migrations.SampleApp.csproj", "{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -381,6 +389,14 @@ Global
 		{B140E189-2E1E-4AF1-8BF4-2D9D79BB4F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B140E189-2E1E-4AF1-8BF4-2D9D79BB4F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B140E189-2E1E-4AF1-8BF4-2D9D79BB4F61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -450,5 +466,9 @@ Global
 		{55326270-6B5C-4618-A02E-B08A24909A44} = {1765F2C9-8257-4F37-A506-8689E75EB5B2}
 		{8DA839B6-92C7-40EF-8126-A8782F8E58EF} = {F698A205-25E9-45EA-9693-823383972E5B}
 		{B140E189-2E1E-4AF1-8BF4-2D9D79BB4F61} = {F698A205-25E9-45EA-9693-823383972E5B}
+		{BAB3A0D6-6383-4D50-9CAB-2B4A5541E7A9} = {4B6A8FB5-19DA-4A21-9CB1-9E0BD25AAC04}
+		{4B6A8FB5-19DA-4A21-9CB1-9E0BD25AAC04} = {F698A205-25E9-45EA-9693-823383972E5B}
+		{D5857E15-3802-475B-95BE-493509EB094A} = {4B6A8FB5-19DA-4A21-9CB1-9E0BD25AAC04}
+		{F324C7E3-7DC8-4D0C-B2CB-9F2247FF0BD0} = {D5857E15-3802-475B-95BE-493509EB094A}
 	EndGlobalSection
 EndGlobal

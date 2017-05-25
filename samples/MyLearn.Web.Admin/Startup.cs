@@ -19,6 +19,7 @@ namespace MyLearn.Web.Admin
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("appdbconfig.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -31,7 +32,8 @@ namespace MyLearn.Web.Admin
             // Add framework services.
             services.AddMvc();
 
-            services.AddAbp<MyLearnWebAdminModule>(options => {
+            services.AddAbp<MyLearnWebAdminModule>(options =>
+            {
                 //
             });
         }

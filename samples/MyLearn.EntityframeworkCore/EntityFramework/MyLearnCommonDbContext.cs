@@ -12,12 +12,22 @@ namespace MyLearn.EntityframeworkCore
 {
     public abstract class MyLearnCommonDbContext : AbpDbContext
     {
-        protected readonly String ConnectionString;
         public MyLearnCommonDbContext(DbContextOptions options) : base(options)
         {
-            ConnectionString = IocManager.Instance.Resolve<IAbpStartupConfiguration>().DefaultNameOrConnectionString;
+        }
+        public String ConnectionString { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // modelBuilder.Entity<PlmRole>().ToTable("", "scheme");
+        }
         public virtual DbSet<PlmRole> Roles { get; set; }
     }
 }
