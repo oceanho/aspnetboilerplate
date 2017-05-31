@@ -16,7 +16,6 @@ namespace MyLearn.Web.Api
         }
         public override void Initialize()
         {
-            Configuration.ap
         }
 
         public override void PostInitialize()

@@ -26,12 +26,12 @@ namespace MyLearn.Web.Api
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddMvc();
 
-            services.AddAbp<MyLearnWebApiModule>(options=> {
+            return services.AddAbp<MyLearnWebApiModule>(options=> {
                 // options.IocManager
             });
         }
