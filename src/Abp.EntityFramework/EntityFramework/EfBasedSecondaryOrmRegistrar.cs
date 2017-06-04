@@ -1,19 +1,31 @@
 ﻿using System;
 using Abp.Dependency;
 using Abp.Domain.Entities;
-using Abp.EntityFramework;
+using Abp.Domain.Repositories;
+using Abp.Orm;
 using Abp.Reflection.Extensions;
 
-namespace Abp.Dapper.Repositories
+namespace Abp.EntityFramework
 {
-    public class DapperGenericRepositoryRegistrar : IDapperGenericRepositoryRegistrar, ITransientDependency
+    public class EfBasedSecondaryOrmRegistrar : ISecondaryOrmRegistrar
     {
-        public void RegisterForDbContext(Type dbContextType, IIocManager iocManager)
-        {
-            AutoRepositoryTypesAttribute autoRepositoryAttr = dbContextType.GetSingleAttributeOrNull<DapperAutoRepositoryTypeAttribute>()
-                                                              ?? DapperAutoRepositoryTypes.Default;
+        private readonly Type _dbContextType;
+        private readonly IDbContextEntityFinder _dbContextEntityFinder;
 
-            foreach (EntityTypeInfo entityTypeInfo in DbContextHelper.GetEntityTypeInfos(dbContextType))
+        public EfBasedSecondaryOrmRegistrar(Type dbContextType, IDbContextEntityFinder dbContextEntityFinder)
+        {
+            _dbContextType = dbContextType;
+            _dbContextEntityFinder = dbContextEntityFinder;
+        }
+
+        public string OrmContextKey => AbpConsts.Orms.EntityFramework;
+
+        public void RegisterRepositories(IIocManager iocManager, AutoRepositoryTypesAttribute defaultRepositoryTypes)
+        {
+            AutoRepositoryTypesAttribute autoRepositoryAttr = _dbContextType.GetSingleAttributeOrNull<AutoRepositoryTypesAttribute>()
+                                                              ?? defaultRepositoryTypes;
+
+            foreach (EntityTypeInfo entityTypeInfo in _dbContextEntityFinder.GetEntityTypeInfos(_dbContextType))
             {
                 Type primaryKeyType = EntityHelper.GetPrimaryKeyType(entityTypeInfo.EntityType);
                 if (primaryKeyType == typeof(int))

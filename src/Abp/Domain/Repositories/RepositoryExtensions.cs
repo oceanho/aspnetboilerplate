@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Abp.Dependency;
 using Abp.Domain.Entities;
+using Abp.Reflection;
+using Abp.Threading;
 
 namespace Abp.Domain.Repositories
 {
@@ -13,14 +16,66 @@ namespace Abp.Domain.Repositories
             this IRepository<TEntity, TPrimaryKey> repository,
             TEntity entity,
             Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default(CancellationToken)
+        )
             where TEntity : class, IEntity<TPrimaryKey>
             where TProperty : class
         {
-            if (repository is ISupportsExplicitLoading<TEntity, TPrimaryKey>)
+            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+            if (repo != null)
             {
-                await (repository as ISupportsExplicitLoading<TEntity, TPrimaryKey>).EnsureLoadedAsync(entity, propertyExpression, cancellationToken);
+                await repo.EnsureLoadedAsync(entity, propertyExpression, cancellationToken);
             }
+        }
+
+        public static void EnsureLoaded<TEntity, TPrimaryKey, TProperty>(
+            this IRepository<TEntity, TPrimaryKey> repository,
+            TEntity entity,
+            Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression
+        )
+            where TEntity : class, IEntity<TPrimaryKey>
+            where TProperty : class
+        {
+            AsyncHelper.RunSync(() => repository.EnsureLoadedAsync(entity, propertyExpression));
+        }
+
+        public static async Task EnsureLoadedAsync<TEntity, TPrimaryKey, TProperty>(
+            this IRepository<TEntity, TPrimaryKey> repository,
+            TEntity entity,
+            Expression<Func<TEntity, TProperty>> propertyExpression,
+            CancellationToken cancellationToken = default(CancellationToken)
+        )
+            where TEntity : class, IEntity<TPrimaryKey>
+            where TProperty : class
+        {
+            var repo = ProxyHelper.UnProxy(repository) as ISupportsExplicitLoading<TEntity, TPrimaryKey>;
+            if (repo != null)
+            {
+                await repo.EnsureLoadedAsync(entity, propertyExpression, cancellationToken);
+            }
+        }
+
+        public static void EnsureLoaded<TEntity, TPrimaryKey, TProperty>(
+            this IRepository<TEntity, TPrimaryKey> repository,
+            TEntity entity,
+            Expression<Func<TEntity, TProperty>> propertyExpression
+        )
+            where TEntity : class, IEntity<TPrimaryKey>
+            where TProperty : class
+        {
+            AsyncHelper.RunSync(() => repository.EnsureLoadedAsync(entity, propertyExpression));
+        }
+
+        public static IIocResolver GetIocResolver<TEntity, TPrimaryKey>(this IRepository<TEntity, TPrimaryKey> repository)
+            where TEntity : class, IEntity<TPrimaryKey>
+        {
+            var repo = ProxyHelper.UnProxy(repository) as AbpRepositoryBase<TEntity, TPrimaryKey>;
+            if (repo != null)
+            {
+                return repo.IocResolver;
+            }
+
+            throw new ArgumentException($"Given {nameof(repository)} is not inherited from {typeof(AbpRepositoryBase<TEntity, TPrimaryKey>).AssemblyQualifiedName}");
         }
     }
 }

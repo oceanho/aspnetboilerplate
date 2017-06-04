@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-
 using Abp.Dapper.Extensions;
 using Abp.Dapper.Filters.Action;
 using Abp.Dapper.Filters.Query;
+using Abp.Data;
 using Abp.Domain.Entities;
 using Abp.Domain.Uow;
-using Abp.EntityFramework;
 using Abp.Events.Bus.Entities;
-
 using Dapper;
 
 using DapperExtensions;
 
 namespace Abp.Dapper.Repositories
 {
-    public class DapperRepositoryBase<TDbContext, TEntity, TPrimaryKey> : AbpDapperRepositoryBase<TEntity, TPrimaryKey>
+    public class DapperRepositoryBase<TEntity, TPrimaryKey> : AbpDapperRepositoryBase<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
-        where TDbContext : DbContext
     {
-        private readonly IDbContextProvider<TDbContext> _dbContextProvider;
+        private readonly IActiveTransactionProvider _activeTransactionProvider;
 
-        public DapperRepositoryBase(IDbContextProvider<TDbContext> dbContextProvider)
+        public DapperRepositoryBase(IActiveTransactionProvider activeTransactionProvider)
         {
-            _dbContextProvider = dbContextProvider;
+            _activeTransactionProvider = activeTransactionProvider;
+
             EntityChangeEventHelper = NullEntityChangeEventHelper.Instance;
             DapperQueryFilterExecuter = NullDapperQueryFilterExecuter.Instance;
             DapperActionFilterExecuter = NullDapperActionFilterExecuter.Instance;
@@ -41,14 +37,9 @@ namespace Abp.Dapper.Repositories
 
         public IDapperActionFilterExecuter DapperActionFilterExecuter { get; set; }
 
-        public virtual TDbContext Context
+        public virtual IDbConnection Connection
         {
-            get { return _dbContextProvider.GetDbContext(); }
-        }
-
-        public virtual DbConnection Connection
-        {
-            get { return Context.Database.Connection; }
+            get { return _activeTransactionProvider.GetActiveConnection(ActiveTransactionProviderArgs.Empty); }
         }
 
         /// <summary>
@@ -60,7 +51,7 @@ namespace Abp.Dapper.Repositories
         /// </value>
         public virtual IDbTransaction ActiveTransaction
         {
-            get { return Context.Database.CurrentTransaction.UnderlyingTransaction; }
+            get { return _activeTransactionProvider.GetActiveTransaction(ActiveTransactionProviderArgs.Empty); }
         }
 
         public override TEntity Single(TPrimaryKey id)
