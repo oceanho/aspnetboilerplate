@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Abp.Collections.Extensions;
+using Abp.Data;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +38,35 @@ namespace Abp.EntityFrameworkCore.Repositories
         /// </summary>
         public virtual DbSet<TEntity> Table => Context.Set<TEntity>();
 
+        public virtual DbTransaction Transaction
+        {
+            get
+            {
+                return (DbTransaction) TransactionProvider?.GetActiveTransaction(new ActiveTransactionProviderArgs
+                {
+                    {"ContextType", typeof(TDbContext) },
+                    {"MultiTenancySide", MultiTenancySide }
+                });
+            }
+        }
+
+        public virtual DbConnection Connection
+        {
+            get
+            {
+                var connection = Context.Database.GetDbConnection();
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                return connection;
+            }
+        }
+
+        public IActiveTransactionProvider TransactionProvider { private get; set; }
+        
         private readonly IDbContextProvider<TDbContext> _dbContextProvider;
 
         /// <summary>
@@ -62,8 +94,6 @@ namespace Abp.EntityFrameworkCore.Repositories
                     query = query.Include(propertySelector);
                 }
             }
-
-            query = ApplyFilters(query);
 
             return query;
         }
@@ -226,16 +256,16 @@ namespace Abp.EntityFrameworkCore.Repositories
             return Context;
         }
 
-        public Task EnsureLoadedAsync<TProperty>(
+        public Task EnsureCollectionLoadedAsync<TProperty>(
             TEntity entity, 
-            Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression, 
+            Expression<Func<TEntity, IEnumerable<TProperty>>> collectionExpression, 
             CancellationToken cancellationToken)
             where TProperty : class
         {
-            return Context.Entry(entity).Collection(propertyExpression).LoadAsync(cancellationToken);
+            return Context.Entry(entity).Collection(collectionExpression).LoadAsync(cancellationToken);
         }
 
-        public Task EnsureLoadedAsync<TProperty>(
+        public Task EnsurePropertyLoadedAsync<TProperty>(
             TEntity entity,
             Expression<Func<TEntity, TProperty>> propertyExpression,
             CancellationToken cancellationToken)

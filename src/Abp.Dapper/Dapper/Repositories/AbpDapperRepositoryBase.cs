@@ -59,6 +59,13 @@ namespace Abp.Dapper.Repositories
             return Task.FromResult(Query<TAny>(query, parameters));
         }
 
+        public abstract int Execute(string query, object parameters = null);
+        
+        public virtual Task<int> ExecuteAsync(string query, object parameters = null)
+        {
+            return Task.FromResult(Execute(query, parameters));
+        }
+
         public abstract IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
 
         public virtual Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
