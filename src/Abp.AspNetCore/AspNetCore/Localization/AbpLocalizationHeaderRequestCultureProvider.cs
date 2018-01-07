@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Internal;
 
 namespace Abp.AspNetCore.Localization
 {
     public class AbpLocalizationHeaderRequestCultureProvider : RequestCultureProvider
     {
-        private static readonly char[] _separator = new[] { '|' };
+        private static readonly char[] Separator = { '|' };
 
         private static readonly string _culturePrefix = "c=";
         private static readonly string _uiCulturePrefix = "uic=";
@@ -25,11 +24,10 @@ namespace Abp.AspNetCore.Localization
 
             if (localizationHeader.Count == 0)
             {
-                return TaskCache<ProviderCultureResult>.DefaultCompletedTask;
+                return Task.FromResult((ProviderCultureResult) null);
             }
 
-            var providerResultCulture = ParseHeaderValue(localizationHeader);
-            return Task.FromResult(providerResultCulture);
+            return Task.FromResult(ParseHeaderValue(localizationHeader));
         }
 
         /// <summary>
@@ -45,7 +43,12 @@ namespace Abp.AspNetCore.Localization
                 return null;
             }
 
-            var parts = value.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+            if (!value.Contains("|") && !value.Contains("="))
+            {
+                return new ProviderCultureResult(value, value);
+            }
+
+            var parts = value.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
 
             if (parts.Length != 2)
             {

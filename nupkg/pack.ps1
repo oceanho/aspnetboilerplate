@@ -7,11 +7,13 @@ $srcPath = Join-Path $slnPath "src"
 $projects = (
     "Abp",
     "Abp.AspNetCore",
+    "Abp.AspNetCore.SignalR",
     "Abp.AutoMapper",
     "Abp.MailKit",
     "Abp.HangFire",
     "Abp.HangFire.AspNetCore",
     "Abp.Quartz",
+    "Abp.QuartzCore",
     "Abp.EntityFramework.Common",
     "Abp.EntityFramework",
     "Abp.EntityFramework.GraphDiff",
@@ -33,7 +35,20 @@ $projects = (
     "Abp.Castle.Log4Net",
     "Abp.TestBase",
     "Abp.AspNetCore.TestBase",
-    "Abp.Web.Resources"  
+    "Abp.Web.Resources",
+    "Abp.Zero.Common",
+    "Abp.Zero.Ldap",
+    "Abp.Zero",
+    "Abp.Zero.Owin",
+    "Abp.Zero.AspNetCore",
+    "Abp.Zero.EntityFramework",
+    "Abp.Zero.EntityFrameworkCore",
+    "Abp.Zero.NHibernate",
+    "Abp.ZeroCore",
+    "Abp.ZeroCore.EntityFrameworkCore",
+    "Abp.ZeroCore.EntityFramework",
+    "Abp.ZeroCore.IdentityServer4",
+    "Abp.ZeroCore.IdentityServer4.EntityFrameworkCore"    
 )
 
 # Rebuild solution
@@ -48,7 +63,8 @@ foreach($project in $projects) {
     # Create nuget pack
     Set-Location $projectFolder
     Remove-Item -Recurse (Join-Path $projectFolder "bin/Release")
-    & dotnet msbuild /t:pack /p:Configuration=Release /p:IncludeSymbols=true /p:SourceLinkCreate=true
+    & dotnet msbuild /p:Configuration=Release /p:SourceLinkCreate=true
+    & dotnet msbuild /t:pack /p:Configuration=Release /p:SourceLinkCreate=true
 
     # Copy nuget package
     $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $project + ".*.nupkg")

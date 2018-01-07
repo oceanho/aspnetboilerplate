@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
   
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Abp.Dapper</AssemblyName>
     <PackageId>Abp.Dapper</PackageId>
     <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;Dapper;ORM</PackageTags>
@@ -12,28 +12,22 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <RootNamespace>Abp</RootNamespace>
+	<Description>Abp.Dapper</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="bin\Release\net46\Abp.Dapper.pdb">
-      <PackagePath>lib/net46/</PackagePath>
+    <None Include="bin\Release\netstandard2.0\Abp.Dapper.pdb">
+      <PackagePath>lib/netstandard2.0/</PackagePath>
       <Pack>true</Pack>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Abp\Abp.csproj" />
-    <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.2" />
-    <PackageReference Include="DapperExtensions" Version="1.5.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="Dapper" Version="1.50.4" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="DapperExtensions.DotnetCore" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

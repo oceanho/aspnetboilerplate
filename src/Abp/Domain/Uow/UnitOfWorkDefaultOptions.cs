@@ -19,6 +19,9 @@ namespace Abp.Domain.Uow
         public TimeSpan? Timeout { get; set; }
 
         /// <inheritdoc/>
+        public bool IsTransactionScopeAvailable { get; set; }
+
+        /// <inheritdoc/>
         public IsolationLevel? IsolationLevel { get; set; }
 
         public IReadOnlyList<DataFilterConfiguration> Filters => _filters;
@@ -31,6 +34,8 @@ namespace Abp.Domain.Uow
             _filters = new List<DataFilterConfiguration>();
             IsTransactional = true;
             Scope = TransactionScopeOption.Required;
+
+            IsTransactionScopeAvailable = true;
 
             ConventionalUowSelectors = new List<Func<Type, bool>>
             {

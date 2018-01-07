@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq.Expressions;
-using System.Reflection;
 using Abp.Application.Features;
 using Abp.Application.Navigation;
 using Abp.Application.Services;
@@ -13,6 +12,7 @@ using Abp.Configuration;
 using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Abp.Events.Bus;
 using Abp.Localization;
 using Abp.Localization.Dictionaries;
@@ -25,7 +25,6 @@ using Abp.Reflection.Extensions;
 using Abp.Runtime;
 using Abp.Runtime.Caching;
 using Abp.Runtime.Remoting;
-using Abp.Runtime.Validation.Interception;
 using Abp.Threading;
 using Abp.Threading.BackgroundWorkers;
 using Abp.Timing;
@@ -191,6 +190,7 @@ namespace Abp
             IocManager.RegisterIfNot<IClientInfoProvider, NullClientInfoProvider>(DependencyLifeStyle.Singleton);
             IocManager.RegisterIfNot<ITenantStore, NullTenantStore>(DependencyLifeStyle.Singleton);
             IocManager.RegisterIfNot<ITenantResolverCache, NullTenantResolverCache>(DependencyLifeStyle.Singleton);
+            IocManager.RegisterIfNot<IEntityHistoryStore, NullEntityHistoryStore>(DependencyLifeStyle.Singleton);
 
             if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
             {

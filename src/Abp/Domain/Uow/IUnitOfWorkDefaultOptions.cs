@@ -21,6 +21,12 @@ namespace Abp.Domain.Uow
         bool IsTransactional { get; set; }
 
         /// <summary>
+        /// A boolean value indicates that System.Transactions.TransactionScope is available for current application.
+        /// Default: true.
+        /// </summary>
+        bool IsTransactionScopeAvailable { get; set; }
+
+        /// <summary>
         /// Gets/sets a timeout value for unit of works.
         /// </summary>
         TimeSpan? Timeout { get; set; }

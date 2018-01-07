@@ -12,9 +12,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Abp.AspNetCore.Mvc.Providers;
 using Abp.Json;
 using Abp.Modules;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Options;
 
@@ -27,33 +29,14 @@ namespace Abp.AspNetCore
         /// </summary>
         /// <typeparam name="TStartupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="AbpModule"/>.</typeparam>
         /// <param name="services">Services.</param>
-        public static IServiceProvider AddAbp<TStartupModule>(this IServiceCollection services)
-            where TStartupModule : AbpModule
-        {
-            return services.AddAbp<TStartupModule>(options => { });
-        }
-
-        /// <summary>
-        /// Integrates ABP to AspNet Core.
-        /// </summary>
-        /// <typeparam name="TStartupModule">Startup module of the application which depends on other used modules. Should be derived from <see cref="AbpModule"/>.</typeparam>
-        /// <param name="services">Services.</param>
         /// <param name="optionsAction">An action to get/modify options</param>
-        public static IServiceProvider AddAbp<TStartupModule>(this IServiceCollection services, Action<AbpServiceOptions> optionsAction)
+        public static IServiceProvider AddAbp<TStartupModule>(this IServiceCollection services, [CanBeNull] Action<AbpBootstrapperOptions> optionsAction = null)
             where TStartupModule : AbpModule
         {
-            var options = new AbpServiceOptions
-            {
-                IocManager = IocManager.Instance
-            };
+            var abpBootstrapper = AddAbpBootstrapper<TStartupModule>(services, optionsAction);
 
-            optionsAction(options);
+            ConfigureAspNetCore(services, abpBootstrapper.IocManager);
 
-            ConfigureAspNetCore(services, options.IocManager);
-
-            var abpBootstrapper = AddAbpBootstrapper<TStartupModule>(services, options.IocManager);
-            abpBootstrapper.PlugInSources.AddRange(options.PlugInSources);
-            
             return WindsorRegistrationHelper.CreateServiceProvider(abpBootstrapper.IocManager.IocContainer, services);
         }
 
@@ -66,13 +49,16 @@ namespace Abp.AspNetCore
             //Use DI to create controllers
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
 
+            //Use DI to create view components
+            services.Replace(ServiceDescriptor.Singleton<IViewComponentActivator, ServiceBasedViewComponentActivator>());
+
             //Change anti forgery filters (to work proper with non-browser clients)
             services.Replace(ServiceDescriptor.Transient<AutoValidateAntiforgeryTokenAuthorizationFilter, AbpAutoValidateAntiforgeryTokenAuthorizationFilter>());
             services.Replace(ServiceDescriptor.Transient<ValidateAntiforgeryTokenAuthorizationFilter, AbpValidateAntiforgeryTokenAuthorizationFilter>());
 
             //Add feature providers
             var partManager = services.GetSingletonServiceOrNull<ApplicationPartManager>();
-            partManager.FeatureProviders.Add(new AbpAppServiceControllerFeatureProvider(iocResolver));
+            partManager?.FeatureProviders.Add(new AbpAppServiceControllerFeatureProvider(iocResolver));
 
             //Configure JSON serializer
             services.Configure<MvcJsonOptions>(jsonOptions =>
@@ -99,10 +85,10 @@ namespace Abp.AspNetCore
             );
         }
 
-        private static AbpBootstrapper AddAbpBootstrapper<TStartupModule>(IServiceCollection services, IIocManager iocManager)
+        private static AbpBootstrapper AddAbpBootstrapper<TStartupModule>(IServiceCollection services, Action<AbpBootstrapperOptions> optionsAction)
             where TStartupModule : AbpModule
         {
-            var abpBootstrapper = AbpBootstrapper.Create<TStartupModule>(iocManager);
+            var abpBootstrapper = AbpBootstrapper.Create<TStartupModule>(optionsAction);
             services.AddSingleton(abpBootstrapper);
             return abpBootstrapper;
         }
